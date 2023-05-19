@@ -1,0 +1,12 @@
+server:
+  port: 8080
+
+db:
+  driver: postgres
+  data_source_name : host=localhost user=postgres password=pinkstars dbname=golang port=5432 sslmode=disable
+  migrate :
+    enabled : true
+  pool:
+    max-open: 10
+    max-idle: 10
+    max-lifetime: 30m
