@@ -3,7 +3,6 @@ package database
 import (
 	"errors"
 	"gorm.io/gorm"
-	"payme-go/internal/config"
 	"time"
 )
 
@@ -25,8 +24,8 @@ type DbConfig struct {
 	} `json:"pool" yaml:"pool"`
 }
 
-func OpenDB(config *config.Config) (*gorm.DB, error) {
-	switch config.DB.Driver {
+func OpenDB(config *DbConfig) (*gorm.DB, error) {
+	switch config.Driver {
 	case "postgres":
 		return OpenPostgres(config)
 	default:

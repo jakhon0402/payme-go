@@ -3,15 +3,14 @@ package database
 import (
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
-	"payme-go/internal/config"
 )
 
-func OpenPostgres(config *config.Config) (*gorm.DB, error) {
+func OpenPostgres(config *DbConfig) (*gorm.DB, error) {
 	var (
 		db  *gorm.DB
 		err error
 	)
-	db, err = gorm.Open(postgres.Open(config.DB.DataSourceName), &gorm.Config{})
+	db, err = gorm.Open(postgres.Open(config.DataSourceName), &gorm.Config{})
 
 	if err != nil {
 		return nil, err
@@ -21,11 +20,11 @@ func OpenPostgres(config *config.Config) (*gorm.DB, error) {
 	if err != nil {
 		return nil, err
 	}
-	rawDb.SetMaxIdleConns(config.DB.Pool.MaxIdle)
-	rawDb.SetMaxOpenConns(config.DB.Pool.MaxOpen)
-	rawDb.SetConnMaxLifetime(config.DB.Pool.MaxLifeTime)
+	rawDb.SetMaxIdleConns(config.Pool.MaxIdle)
+	rawDb.SetMaxOpenConns(config.Pool.MaxOpen)
+	rawDb.SetConnMaxLifetime(config.Pool.MaxLifeTime)
 
-	if config.DB.Migrate.Enabled {
+	if config.Migrate.Enabled {
 		if err := MigratePostgres(db); err != nil {
 			return nil, err
 		}
